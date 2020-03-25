@@ -1,0 +1,91 @@
+<?php
+
+	session_start();
+
+	$mysqli = new mysqli('localhost', 'root', '', 'crud') or die(mysqli_error($mysqli));
+
+	$id = 0;
+	$update = false;
+	$name = '';
+	$location = '';
+
+	
+//insert
+	if(isset($_POST['sacuvaj'])) {
+    	$naziv = $_POST['naziv'];
+    
+    
+    $status = "0";
+    if(isset($_POST['status'])){
+      
+    	$status = $_POST['status'];
+      
+    }
+    
+    if($result->num_rows) {
+			$row = $result->fetch_array();
+			$id = $row['id'];
+			$naziv = $row['naziv'];
+			$status = $row['status'];
+		}
+
+   		$mysqli->query("INSERT INTO grupeproizvoda (naziv, status) VALUES ('$naziv', '$status')") or die($mysqli->error);
+
+   		$_SESSION['message'] = "Stavka uspesno sacuvana!";
+		
+
+   		header('location: gp.php');
+	}
+
+	
+	//delete
+	if(isset($_GET['obrisati'])) {
+		$id = $_GET['obrisati'];
+
+		$mysqli->query("DELETE FROM grupeproizvoda WHERE id=$id") or die($mysqli->error());
+
+		$_SESSION['message'] = "Stavka uspesno obrisana!";
+
+		
+		header('location: gp.php');
+
+	}
+	
+	//edit
+	if(isset($_GET['editid'])) {
+		$id = $_GET['editid'];
+		$update = true;
+		$result = $mysqli->query("SELECT * FROM grupeproizvoda WHERE id=$id") or die($mysqli->error());
+		 if($result->num_rows) {
+			$row = $result->fetch_array();
+			$name = $row['naziv'];
+			$status = $row['status'];
+		}
+	}
+	
+	
+	
+	
+		if(isset($_POST['update'])) {
+		$id = $_POST['id'];
+		$naziv = $_POST['naziv'];
+    
+   
+    $status = "0";
+    if(isset($_POST['status'])){
+      
+    	$status = $_POST['status'];
+      
+    }
+
+		$mysqli->query("UPDATE grupeproizvoda SET naziv='$naziv', status='$status' WHERE id=$id") or die($mysqli->error);
+
+		$_SESSION['message'] = "Uspesno izmenjeno!";
+		$_SESSION['msg_type'] = "warning";
+
+		header('location: gp.php');
+	}
+		
+
+
+?>

@@ -1,6 +1,6 @@
 
 <?php include 'templates/header.php'; ?>
-<?php require_once 'process.php'; ?>
+<?php require_once 'actiongp.php'; ?>
 
 	<?php 
 	if (isset($_SESSION['message'])):
@@ -39,11 +39,11 @@
 						<td><?php echo $row['naziv']; ?></td>
 						<td><?php echo $row['status']; ?></td>
 						<td>
-							<a href="gp.php?edit=<?php echo $row['id']; ?>" class="btn btn-info">
-							Izmeniti
+							<a href="ngp.php?editid=<?php echo $row['id']; ?>" class="btn btn-info">
+							Edit
 							</a>
-							<a href="process.php?obrisati=<?php echo $row['id']; ?>" class="btn btn-danger">
-							Obrisati
+							<a href="actiongp.php?obrisati=<?php echo $row['id']; ?>" class="btn btn-danger">
+							Delete
 							</a>
 						</td>
 					</tr>
