@@ -8,7 +8,7 @@
 	$update = false;
 	$name = '';
 	$location = '';
-
+	
 	
 //insert
 	if(isset($_POST['sacuvaj'])) {
@@ -21,6 +21,15 @@
     	$status = $_POST['status'];
       
     }
+	
+	if($naziv==''){
+		
+	$_SESSION['message'] = "Naziv je prazan!";	
+		
+		
+		header('location: ../grupeproizvoda/ngp.php');
+	}
+	else{
     
     if($result->num_rows) {
 			$row = $result->fetch_array();
@@ -34,20 +43,22 @@
    		$_SESSION['message'] = "Stavka uspesno sacuvana!";
 		
 
-   		header('location: gp.php');
+   		header('location: ../grupeproizvoda/gp.php');
+		
+	}
 	}
 
 	
 	//delete
-	if(isset($_GET['obrisati'])) {
-		$id = $_GET['obrisati'];
+	if(isset($_GET['deleteid'])) {
+		$id = $_GET['deleteid'];
 
 		$mysqli->query("DELETE FROM grupeproizvoda WHERE id=$id") or die($mysqli->error());
 
 		$_SESSION['message'] = "Stavka uspesno obrisana!";
 
 		
-		header('location: gp.php');
+		header('location: ../grupeproizvoda/gp.php');
 
 	}
 	
@@ -58,7 +69,7 @@
 		$result = $mysqli->query("SELECT * FROM grupeproizvoda WHERE id=$id") or die($mysqli->error());
 		 if($result->num_rows) {
 			$row = $result->fetch_array();
-			$name = $row['naziv'];
+			$naziv = $row['naziv'];
 			$status = $row['status'];
 		}
 	}
@@ -71,9 +82,9 @@
 		$naziv = $_POST['naziv'];
     
    
-    $status = "0";
-    if(isset($_POST['status'])){
-      
+	    $status = "0";
+	    if(isset($_POST['status'])){
+	      
     	$status = $_POST['status'];
       
     }
@@ -83,9 +94,8 @@
 		$_SESSION['message'] = "Uspesno izmenjeno!";
 		$_SESSION['msg_type'] = "warning";
 
-		header('location: gp.php');
+		header('location: ../grupeproizvoda/gp.php');
 	}
-		
 
 
 ?>
